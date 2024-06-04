@@ -1,4 +1,4 @@
-package ic.ac.unpas.jadwalin.ui.lecturescreen
+package ic.ac.unpas.jadwalin.ui.screens.lecturescreen
 
 import android.util.Log
 import androidx.lifecycle.LiveData
