@@ -1,4 +1,4 @@
-package ic.ac.unpas.jadwalin.ui.lecturescreen
+package ic.ac.unpas.jadwalin.ui.screens.lecturescreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
