@@ -101,7 +101,7 @@ fun FormLectureScreen(modifier: Modifier = Modifier, id : String? = null) {
 
         viewModel.item.observe(LocalLifecycleOwner.current) {
             nidn.value = TextFieldValue(it.nidn)
-            nama.value = TextFieldValue(it.nama)
+            nama.value = TextFieldValue(it.name)
             fields.value = TextFieldValue(it.fields)
         }
     }

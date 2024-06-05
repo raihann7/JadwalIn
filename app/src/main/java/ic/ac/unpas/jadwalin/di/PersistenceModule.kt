@@ -6,8 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import id.ac.unpas.agenda.persistences.AppDatabase
-import id.ac.unpas.agenda.persistences.TodoDao
+import ic.ac.unpas.jadwalin.persistences.AppDatabase
+import ic.ac.unpas.jadwalin.persistences.ClassesDao
+import ic.ac.unpas.jadwalin.persistences.LecturersDao
+import ic.ac.unpas.jadwalin.persistences.SubjectsDao
 import javax.inject.Singleton
 
 @Module
@@ -23,7 +25,17 @@ object PersistenceModule {
 
     @Provides
     @Singleton
-    fun provideTodoDao(appDatabase: AppDatabase) : TodoDao {
-        return appDatabase.todoDao()
+    fun provideClassesDao(appDatabase: AppDatabase) : ClassesDao {
+        return appDatabase.classesDao()
+    }
+    @Provides
+    @Singleton
+    fun provideLecturerDao(appDatabase: AppDatabase) : LecturersDao {
+        return appDatabase.lecturersDao()
+    }
+    @Provides
+    @Singleton
+    fun provideSubjectDao(appDatabase: AppDatabase) : SubjectsDao {
+        return appDatabase.subjectsDao()
     }
 }

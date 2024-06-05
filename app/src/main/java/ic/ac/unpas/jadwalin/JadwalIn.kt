@@ -1,4 +1,4 @@
-package id.ac.unpas.agenda
+package ic.ac.unpas.jadwalin
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
