@@ -1,12 +1,14 @@
-package id.ac.unpas.agenda.di
+package id.ac.unpas.jadwalin.di
 
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import id.ac.unpas.agenda.networks.RequestInterceptor
-import id.ac.unpas.agenda.networks.TodoApi
+import ic.ac.unpas.jadwalin.networks.ClassesApi
+import ic.ac.unpas.jadwalin.networks.LecturerApi
+import ic.ac.unpas.jadwalin.networks.SubjectApi
+import id.ac.unpas.jadwalin.networks.RequestInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,7 +29,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("http://172.12.0.109:8000/api/")
+            .baseUrl("http://ppm-api.nimbus.biz.id/api/course/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .build()
@@ -35,7 +37,17 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideTodoApi(retrofit: Retrofit): TodoApi {
-        return retrofit.create(TodoApi::class.java)
+    fun provideClassesApi(retrofit: Retrofit): ClassesApi {
+        return retrofit.create(ClassesApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideLecturerApi(retrofit: Retrofit): LecturerApi {
+        return retrofit.create(LecturerApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideSubjectApi(retrofit: Retrofit): SubjectApi {
+        return retrofit.create(SubjectApi::class.java)
     }
 }

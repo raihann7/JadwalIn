@@ -1,4 +1,4 @@
-package ic.ac.unpas.jadwalin.ui.screens.ListClassesScreen
+package ic.ac.unpas.jadwalin.ui.screens.classesScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,51 +13,33 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
-import id.ac.unpas.agenda.models.Todo
-import id.ac.unpas.agenda.ui.composables.ConfirmationDialog
+import ic.ac.unpas.jadwalin.ui.screens.ClassesViewModel.ClassesViewModel
+import id.ac.unpas.jadwalin.models.Classes
+import id.ac.unpas.jadwalin.ui.screens.ClassesItem
 import kotlinx.coroutines.launch
 
 @Composable
-fun ListClassesScreen(modifier: Modifier = Modifier, onDelete: () -> Unit, onClick: (String) -> Unit) {
+fun ListClassesScreen(modifier: Modifier = Modifier, onClick: (String) -> Unit) {
 
     val scope = rememberCoroutineScope()
-    val viewModel = hiltViewModel<ListClassesScreen>()
+    val viewModel = hiltViewModel<ClassesViewModel>()
 
-    val list: List<classes> by viewModel.todos.observeAsState(listOf())
-    val title = remember { mutableStateOf("TODO") }
-    val openDialog = remember {
-        mutableStateOf(false)
-    }
-    val activeId = remember {
-        mutableStateOf("")
-    }
-    val deleting = remember {
-        mutableStateOf(false)
-    }
+    val list: List<Classes> by viewModel.classess.observeAsState(listOf())
+    val title = remember { mutableStateOf("Classes") }
+
     Column(modifier = modifier.fillMaxWidth()) {
         Text(text = title.value, modifier = Modifier.fillMaxWidth())
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(list.size) { index ->
                 val item = list[index]
-                TodoItem(item = item, onEditClick = { id ->
+                ClassesItem(item = item, onEditClick = { id ->
                     onClick(id)
                 }, onDeleteClick = { id ->
-                    deleting.value = true
-                    activeId.value = id
-                    openDialog.value = true
+                    scope.launch {
+                        viewModel.delete(id)
+                    }
                 })
             }
-        }
-    }
-
-    if (openDialog.value) {
-        ConfirmationDialog(onDismiss = {
-            openDialog.value = false
-        }) {
-            scope.launch {
-                viewModel.delete(activeId.value)
-            }
-            openDialog.value = false
         }
     }
 
@@ -65,15 +47,7 @@ fun ListClassesScreen(modifier: Modifier = Modifier, onDelete: () -> Unit, onCli
         if (it) {
             title.value = "Loading..."
         } else {
-            title.value = "TODO"
-        }
-    }
-
-    viewModel.isDeleted.observe(LocalLifecycleOwner.current) {
-        if (deleting.value && it) {
-            deleting.value = false
-            onDelete()
+            title.value = "Classes"
         }
     }
 }
-

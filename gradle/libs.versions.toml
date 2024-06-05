@@ -1,14 +1,16 @@
 [versions]
-agp = "8.4.0"
+agp = "8.3.0"
 kotlin = "1.9.22"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.7.0"
+appcompat = "1.7.0"
+material = "1.12.0"
+kotlinKsp = "1.9.22-1.0.17"
+lifecycleRuntimeKtx = "2.8.1"
 activityCompose = "1.9.0"
 composeBom = "2024.05.00"
-kotlinKsp = "1.9.22-1.0.17"
 room = "2.6.1"
 uuid = "0.4.0"
 composeUi = "1.6.7"
@@ -52,6 +54,8 @@ sandwich = { group = "com.github.skydoves", name = "sandwich", version.ref = "sa
 sandwich-retrofit = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
 whatif = { group = "com.github.skydoves", name = "whatif", version.ref = "whatif" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

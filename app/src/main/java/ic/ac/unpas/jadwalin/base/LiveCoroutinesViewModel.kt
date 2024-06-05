@@ -1,4 +1,4 @@
-package id.ac.unpas.agenda.base
+package ic.ac.unpas.jadwalin.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

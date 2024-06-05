@@ -3,18 +3,16 @@ package ic.ac.unpas.jadwalin.ui.screens.lecturescreen
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.switchMap
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.ac.unpas.agenda.base.LiveCoroutinesViewModel
-import id.ac.unpas.agenda.models.Todo
-import id.ac.unpas.agenda.persistences.TodoDao
-import id.ac.unpas.agenda.repositories.TodoRepository
+import ic.ac.unpas.jadwalin.base.LiveCoroutinesViewModel
+import ic.ac.unpas.jadwalin.models.Lecturers
+import ic.ac.unpas.jadwalin.repositories.LecturerRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class TodoViewModel @Inject constructor(private val todoRepository: LectureRepository) : LiveCoroutinesViewModel() {
+class LectureViewModel @Inject constructor(private val classesRepository: LecturerRepository) : LiveCoroutinesViewModel() {
 
     private val _isDone: MutableLiveData<Boolean> = MutableLiveData(false)
     val isDone: LiveData<Boolean> = _isDone
@@ -22,82 +20,87 @@ class TodoViewModel @Inject constructor(private val todoRepository: LectureRepos
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _item: MutableLiveData<Lecture> = MutableLiveData()
-    val item: LiveData<Lecture> = _item
+    private val _item: MutableLiveData<Lecturers> = MutableLiveData()
+    val item: LiveData<Lecturers> = _item
 
-    private val _todo: MutableLiveData<Boolean> = MutableLiveData(false)
-    val todos : LiveData<List<Lecture>> = _todo.switchMap {
+    private val _isDeleted: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isDeleted: LiveData<Boolean> = _isDeleted
+
+    private val _classes: MutableLiveData<Boolean> = MutableLiveData(false)
+    val lecturers : LiveData<List<Lecturers>> = _classes.switchMap {
         _isLoading.postValue(true)
         launchOnViewModelScope {
-            todoRepository.loadItems(
+            classesRepository.loadItems(
                 onSuccess = {
                     _isLoading.postValue(false)
                 },
                 onError = {
                     _isLoading.postValue(false)
-                    Log.e("TodoViewModel", it)
+                    Log.e("LectureViewModel", it)
                 }
             ).asLiveData()
         }
     }
 
     suspend fun insert(id: String,
-                       title: String,
-                       description: String,
-                       dueDate: String) {
+                       nidn: String,
+                       name: String,
+                       fields: String) {
         _isLoading.postValue(true)
-        todoRepository.insert(Lecture(nidn, nama, fields),
+        classesRepository.insert(Lecturers(id, nidn, name, fields),
             onSuccess = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
             },
             onError = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
             }
         )
     }
 
     suspend fun update(id: String,
-                       title: String,
-                       description: String,
-                       dueDate: String) {
+                       nidn: String,
+                       name: String,
+                       fields: String) {
         _isLoading.postValue(true)
-        todoRepository.update(Lecture(nidn, nama, fields),
+        classesRepository.update(Lecturers(id, nidn, name, fields),
             onSuccess = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
             },
             onError = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
             }
         )
     }
 
     suspend fun delete(id: String) {
         _isLoading.postValue(true)
-        todoRepository.delete(id,
+        classesRepository.delete(id,
             onSuccess = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
+                _isDeleted.postValue(true)
             },
             onError = {
                 _isLoading.postValue(false)
                 _isDone.postValue(true)
-                _todo.postValue(true)
+                _classes.postValue(true)
+                _isDeleted.postValue(false)
             }
         )
     }
 
     suspend fun find(id: String) {
-        val todo = todoRepository.find(id)
-        todo?.let {
+        val classes = classesRepository.find(id)
+        classes?.let {
             _item.postValue(it)
         }
     }

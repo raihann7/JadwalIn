@@ -18,12 +18,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.benasher44.uuid.uuid4
+import ic.ac.unpas.jadwalin.ui.screens.ClassesViewModel.ClassesViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun FormClassesScreen(modifier: Modifier = Modifier, id : String? = null) {
 
-    val viewModel = hiltViewModel<FormClassesScreen>()
+    val viewModel = hiltViewModel<ClassesViewModel>()
     val scope = rememberCoroutineScope()
 
     val lecturer_id = remember { mutableStateOf(TextFieldValue("")) }
@@ -134,7 +135,7 @@ fun FormClassesScreen(modifier: Modifier = Modifier, id : String? = null) {
             subject_id.value = TextFieldValue(it.subject_id)
             name.value = TextFieldValue(it.name)
             day.value = TextFieldValue(it.day)
-            start_time.value = TextFieldValue(it.start_time)
+            start_time.value = TextFieldValue(it.star_time)
             end_time.value = TextFieldValue(it.end_time)
         }
     }
